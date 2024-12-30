@@ -9,11 +9,23 @@
 - Check the status of Docker containers.
 - Test database connectivity for MySQL, PostgreSQL, and MSSQL.
 
-## Prerequisites
+## Installation
+
+Windows
+```PowerShell
+Invoke-WebRequest -Uri "https://github.com/rohsyl/sv-cli/blob/main/scripts/install.ps1" -OutFile "$env:TEMP\install.ps1"; Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File $env:TEMP\install.ps1" -Verb RunAs
+```
+
+Linux
+```bash
+curl -fsSL https://github.com/rohsyl/sv-cli/blob/main/scripts/install.sh | sudo bash
+```
+
+## Setting up dev env
+
+### Prerequisites
 
 - **Go**: Ensure you have Go (1.20 or later) installed on your system. You can download it from [Go Downloads](https://go.dev/dl/).
-
-## Installation
 
 1. Clone the repository:
    ```bash
