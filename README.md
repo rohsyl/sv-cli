@@ -1,6 +1,3 @@
-Here’s a sample `README.md` file for your project:
-
-```markdown
 # sv-cli
 
 `sv-cli` is a cross-platform command-line tool that provides system information and checks the status of services, databases, and Docker containers. It works on both Linux and Windows.
