@@ -57,7 +57,7 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: |
-          artifacts/sv
-          artifacts/sv.exe
+          artifacts/sv-linux
+          artifacts/sv-windows
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
