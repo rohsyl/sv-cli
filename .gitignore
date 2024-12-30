@@ -1,0 +1,34 @@
+# Go-specific ignores
+/bin/
+/pkg/
+/src/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Output binaries
+sv
+sv.exe
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Editor-specific ignores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Dependency files
+go.sum
+
+# Logs and temporary files
+*.log
+*.tmp
+*.out
+
+# Ignore user-specific or temporary files
+.env
+*.local
