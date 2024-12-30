@@ -142,6 +142,19 @@ go run main.go ram --format=json
 
 Feel free to fork this repository and submit pull requests. Issues and feature requests are welcome!
 
+## Create a new release
+
+Create a new tag on main branch with prefix `v*`
+
+```bash
+git tag v0.0.1
+```
+
+and push it
+```bash
+git push origin v0.0.1
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
