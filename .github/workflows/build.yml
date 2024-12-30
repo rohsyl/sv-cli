@@ -55,5 +55,5 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |-
-          sv-linux
-          sv-windows
+          sv-linux/*
+          sv-windows/*
