@@ -32,16 +32,16 @@
 
 Run the following command:
 ```bash
-go build -o sv
+GOOS=linux GOARCH=amd64 go build -o sv
 ```
 
 This will create an executable named `sv` in the current directory.
 
 ### For Windows
 
-Run the following command:
+Run the following command: 
 ```bash
-go build -o sv.exe
+GOOS=windows GOARCH=amd64 go build -o sv.exe
 ```
 
 This will create an executable named `sv.exe` in the current directory.
