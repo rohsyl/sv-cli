@@ -146,11 +146,3 @@ Feel free to fork this repository and submit pull requests. Issues and feature r
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 ```
-
----
-
-### How to Use
-- Replace `yourusername` in the `git clone` command with your GitHub username if you host the repository on GitHub.
-- Update the `LICENSE` section if you use a different license.
-
-Let me know if you’d like to customize this further!
