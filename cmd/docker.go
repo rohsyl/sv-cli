@@ -25,7 +25,7 @@ func NewDockerCmd() *cobra.Command {
 
 func NewDockerShowCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "docker [container_name]",
+		Use:   "show [container_name]",
 		Short: "Check if a Docker container is running",
 		Args:  cobra.ExactArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {

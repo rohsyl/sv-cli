@@ -93,11 +93,16 @@ Example:
 #### Docker Container Status
 Check if a Docker container is running:
 ```bash
-./sv docker [container_name] --format=table
+./sv docker show [container_name] --format=table
 ```
 Example:
 ```bash
-./sv docker my-container --format=json
+./sv docker show my-container --format=json
+```
+
+Get running containers
+```bash
+./sv docker list --format= 
 ```
 
 #### Database Connectivity
