@@ -16,8 +16,10 @@ type DiskUsage struct {
 
 // RAMUsage represents total and free RAM
 type RAMUsage struct {
-	Total uint64 `json:"total"`
-	Free  uint64 `json:"free"`
+	Total       uint64  `json:"total"`
+	Free        uint64  `json:"free"`
+	Used        uint64  `json:"used"`
+	UsedPercent float64 `json:"usedPercent"`
 }
 
 // CPUUsage represents CPU usage percentage

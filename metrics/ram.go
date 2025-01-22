@@ -10,5 +10,5 @@ func GetRAMUsage() MetricResult {
 		return MetricResult{Success: false, Error: err.Error()}
 	}
 
-	return MetricResult{Success: true, Data: RAMUsage{Total: v.Total, Free: v.Free}}
+	return MetricResult{Success: true, Data: RAMUsage{Total: v.Total, Free: v.Free, Used: v.Used, UsedPercent: v.UsedPercent}}
 }
