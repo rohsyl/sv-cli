@@ -1,0 +1,25 @@
+{
+    "metrics": [
+        {
+            "type": "ram"
+        },
+        {
+            "type": "disk"
+        },
+        {
+            "type": "cpu"
+        },
+        {
+            "type": "service"
+            "configuration": {
+                "name": "apache2"
+            }
+        },
+        {
+            "type": "docker-container"
+            "configuration": {
+                "name": "mycontainer"
+            }
+        },
+    ]
+}

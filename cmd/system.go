@@ -1,19 +1,18 @@
 package cmd
 
 import (
+	"github.com/spf13/cobra"
 	"sv-cli/metrics"
 	"sv-cli/utils"
-
-	"github.com/spf13/cobra"
 )
 
-func NewDiskCmd() *cobra.Command {
+func NewSystemCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "disk",
-		Short: "Get disk usage",
+		Use:   "system",
+		Short: "Get system information",
 		Run: func(cmd *cobra.Command, args []string) {
 			format, _ := cmd.Flags().GetString("format")
-			utils.OutputResult(metrics.GetDiskUsage(), format)
+			utils.OutputResult(metrics.GetSystemInfo(), format)
 		},
 	}
 }

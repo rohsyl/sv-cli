@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"sv-cli/cmd/db"
 	"github.com/spf13/cobra"
+	"sv-cli/cmd/db"
 )
 
 func NewRootCmd() *cobra.Command {
@@ -16,11 +16,14 @@ func NewRootCmd() *cobra.Command {
 
 	// Add subcommands
 	rootCmd.AddCommand(
+		NewCPUCmd(),
 		NewRamCmd(),
 		NewDiskCmd(),
 		NewServiceCmd(),
 		NewDockerCmd(),
 		db.NewDbCmd(),
+		NewSystemCmd(),
+		NewSendMetricsCmd(),
 	)
 
 	return rootCmd
