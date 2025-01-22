@@ -14,7 +14,7 @@ func NewMssqlCmd() *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			format, _ := cmd.Flags().GetString("format")
 			dsn, _ := cmd.Flags().GetString("dsn")
-			utils.OutputResult(metrics.CheckDatabaseStatus("postgres", dsn), format)
+			utils.OutputResult(metrics.CheckDatabaseStatus("sqlserver", dsn), format)
 		},
 	}
 }
