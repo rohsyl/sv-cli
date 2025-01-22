@@ -29,8 +29,8 @@ type MetricsResults struct {
 // NewFetchMetricsCmd creates the fetch-metrics command
 func NewSendMetricsCmd() *cobra.Command {
 	return &cobra.Command{
-		Use:   "fetch-metrics",
-		Short: "Fetches metrics from API and submits results",
+		Use:   "send-metrics",
+		Short: "Fetches metrics config from API and send results",
 		Run: func(cmd *cobra.Command, args []string) {
 			// Fetch metric configuration
 			config, err := fetchMetricConfig()

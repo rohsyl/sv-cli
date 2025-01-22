@@ -18,6 +18,7 @@ type DiskUsage struct {
 type RAMUsage struct {
 	Total       uint64  `json:"total"`
 	Free        uint64  `json:"free"`
+	Available   uint64  `json:"available"`
 	Used        uint64  `json:"used"`
 	UsedPercent float64 `json:"usedPercent"`
 }
