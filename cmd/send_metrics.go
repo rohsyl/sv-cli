@@ -7,12 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"net/http"
 	"sv-cli/metrics"
-)
-
-// API endpoints
-const (
-	ConfigEndpoint = "https://your-api.com/api/v1/metrics/config"
-	SubmitEndpoint = "https://your-api.com/api/v1/metrics"
+	"sv-cli/utils"
 )
 
 // MetricRequest represents a single metric request
@@ -61,7 +56,7 @@ func NewSendMetricsCmd() *cobra.Command {
 
 // fetchMetricConfig retrieves metric configurations from the API
 func fetchMetricConfig() (*MetricsConfig, error) {
-	resp, err := http.Get(ConfigEndpoint)
+	resp, err := http.Get(utils.GetEnv("METRICS_CONFIG_URL", ""))
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +102,7 @@ func sendMetricsData(results MetricsResults) error {
 		return err
 	}
 
-	req, err := http.NewRequest("POST", SubmitEndpoint, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest("POST", utils.GetEnv("METRICS_SUBMIT_URL", ""), bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}
