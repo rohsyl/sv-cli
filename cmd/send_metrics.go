@@ -12,13 +12,25 @@ import (
 
 // MetricRequest represents a single metric request
 type MetricRequest struct {
-	Type   string                 `json:"type"`
-	Config map[string]interface{} `json:"config,omitempty"`
+	Type   string         `json:"type"`
+	Enabled int			  `json:"enabled"`
+	Config  *MetricConfig `json:"config,omitempty"`
+}
+
+type MetricConfig struct {
+	Items []MetricItem     `json:"items,omitempty"`
+}
+
+type MetricItem struct {
+	Enabled int            `json:"enabled"`
+	Name    string         `json:"name,omitempty"`
+	Params  []string  	   `json:"params,omitempty"`
 }
 
 // MetricsConfig represents the API response for metric configuration
 type MetricsConfig struct {
-	Metrics []MetricRequest `json:"metrics"`
+	ID      int              `json:"id"`
+	Metrics []MetricRequest  `json:"metrics"`
 }
 
 // MetricsResults represents the JSON payload sent to the API
@@ -56,7 +68,18 @@ func NewSendMetricsCmd() *cobra.Command {
 
 // fetchMetricConfig retrieves metric configurations from the API
 func fetchMetricConfig() (*MetricsConfig, error) {
-	resp, err := http.Get(utils.GetEnv("METRICS_CONFIG_URL", ""))
+	url := utils.GetEnv("METRICS_CONFIG_URL", "")
+	token := utils.GetEnv("API_KEY", "")
+
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		return nil, err
 	}
@@ -80,16 +103,21 @@ func executeMetrics(config *MetricsConfig) MetricsResults {
 	results := make(map[string]metrics.MetricResult)
 
 	for _, metric := range config.Metrics {
-		// Extract parameters if any
-		var params []interface{}
-		if metric.Config != nil {
-			for _, value := range metric.Config {
-				params = append(params, value)
-			}
+
+		if(metric.Enabled == 0) {
+			continue;
 		}
 
-		// Dynamically call the metric function
-		results[metric.Type] = metrics.CallMetricFunction(metric.Type, params...)
+		// Extract parameters if any
+		if (metric.Config != nil && len(metric.Config.Items) > 0) {
+			for _, item := range metric.Config.Items {
+				// Dynamically call the metric function
+				results[metric.Type] = metrics.CallMetricFunction(metric.Type, item.Params)
+			}
+		} else {
+			results[metric.Type] = metrics.CallMetricFunction(metric.Type, nil)
+		}
+
 	}
 
 	return MetricsResults{Results: results}
@@ -97,6 +125,8 @@ func executeMetrics(config *MetricsConfig) MetricsResults {
 
 // sendMetricsData submits the collected metrics to the API
 func sendMetricsData(results MetricsResults) error {
+	token := utils.GetEnv("API_KEY", "")
+
 	jsonData, err := json.Marshal(results)
 	if err != nil {
 		return err
@@ -107,6 +137,7 @@ func sendMetricsData(results MetricsResults) error {
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+token)
 
 	client := &http.Client{}
 	resp, err := client.Do(req)

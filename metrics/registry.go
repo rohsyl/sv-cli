@@ -9,10 +9,11 @@ var metricsMap = map[string]interface{}{
 	"cpu":              GetCPUUsage,
 	"service":          GetServiceStatus,       // Requires extra parameters
 	"docker-container": GetDockerContainerInfo, // Requires extra parameters
+	"database":			CheckDatabaseStatus,
 }
 
 // CallMetricFunction dynamically executes the corresponding function
-func CallMetricFunction(name string, params ...interface{}) MetricResult {
+func CallMetricFunction(name string, params []string) MetricResult {
 	if fn, exists := metricsMap[name]; exists {
 		fnValue := reflect.ValueOf(fn)
 
