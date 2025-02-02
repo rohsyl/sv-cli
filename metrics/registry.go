@@ -1,6 +1,9 @@
 package metrics
 
-import "reflect"
+import (
+	"reflect"
+	"fmt"
+)
 
 // Registry for mapping metric names to function pointers
 var metricsMap = map[string]interface{}{
@@ -27,10 +30,12 @@ func CallMetricFunction(name string, params []string) MetricResult {
 
 			// Call the function dynamically
 			results := fnValue.Call(args)
+			fmt.Println(results)
 
 			// Ensure we return the expected MetricResult type
 			if len(results) > 0 {
 				if metricResult, ok := results[0].Interface().(MetricResult); ok {
+					fmt.Println(metricResult)
 					return metricResult
 				}
 			}

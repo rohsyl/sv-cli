@@ -112,7 +112,7 @@ func executeMetrics(config *MetricsConfig) MetricsResults {
 		if (metric.Config != nil && len(metric.Config.Items) > 0) {
 			for _, item := range metric.Config.Items {
 				// Dynamically call the metric function
-				results[metric.Type] = metrics.CallMetricFunction(metric.Type, item.Params)
+				results[metric.Type + "_" + item.Params[0]] = metrics.CallMetricFunction(metric.Type, item.Params)
 			}
 		} else {
 			results[metric.Type] = metrics.CallMetricFunction(metric.Type, nil)
@@ -125,6 +125,9 @@ func executeMetrics(config *MetricsConfig) MetricsResults {
 
 // sendMetricsData submits the collected metrics to the API
 func sendMetricsData(results MetricsResults) error {
+
+	fmt.Println(results)
+
 	token := utils.GetEnv("API_KEY", "")
 
 	jsonData, err := json.Marshal(results)

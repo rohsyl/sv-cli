@@ -5,6 +5,7 @@ type MetricResult struct {
 	Success bool        `json:"success"`
 	Data    interface{} `json:"data"`
 	Error   string      `json:"error,omitempty"`
+	ErrorCode int       `json:"error_code,omitempty"`
 }
 
 // DiskUsage represents the disk information
