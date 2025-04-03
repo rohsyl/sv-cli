@@ -1,6 +1,6 @@
 # Download sv.exe
 Write-Host "Downloading sv-cli binary..."
-$svUrl = "https://github.com/rohsyl/sv-cli/releases/download/latest/sv.exe"
+$svUrl = "https://github.com/rohsyl/sv-cli/releases/latest/download/sv.exe"
 $svPath = "$env:ProgramFiles\sv-cli\sv.exe"
 
 # Create installation directory if it doesn't exist
