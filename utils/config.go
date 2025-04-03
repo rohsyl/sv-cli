@@ -7,7 +7,13 @@ import (
 )
 
 func LoadEnv() {
-	err := godotenv.Load()
+
+	defaultEnv = "sv.config"
+	if runtime.GOOS == "linux" {
+		defaultEnv = "/data/sv/.config"
+	}
+
+	err := godotenv.Load(".env", defaultEnv)
 	if err != nil {
 		fmt.Println("⚠️ Warning: No .env file found, using default values.")
 	}
