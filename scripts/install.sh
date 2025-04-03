@@ -2,7 +2,7 @@
 
 # Download sv binary
 echo "Downloading sv-cli binary..."
-SV_URL="https://github.com/rohsyl/sv-cli/releases/download/latest/sv"
+SV_URL="https://github.com/rohsyl/sv-cli/releases/latest/download/sv"
 INSTALL_DIR="/usr/local/bin"
 SV_PATH="$INSTALL_DIR/sv"
 
