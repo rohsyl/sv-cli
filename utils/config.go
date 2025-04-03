@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"os"
+	"runtime"
 )
 
 func LoadEnv() {
 
-	defaultEnv = "sv.config"
+	var defaultEnv = "sv.config"
 	if runtime.GOOS == "linux" {
 		defaultEnv = "/data/sv/.config"
 	}
