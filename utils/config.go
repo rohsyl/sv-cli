@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/joho/godotenv"
 	"os"
 	"runtime"
@@ -16,7 +15,7 @@ func LoadEnv() {
 
 	err := godotenv.Load(".env", defaultEnv)
 	if err != nil {
-		fmt.Println("⚠️ Warning: No .env file found, using default values.")
+		//fmt.Println("⚠️ Warning: No .env file found, using default values.")
 	}
 }
 

@@ -8,6 +8,8 @@
 *.dylib
 
 # Output binaries
+sv-cli
+sv-cli.exe
 sv
 sv.exe
 
@@ -18,6 +20,7 @@ Thumbs.db
 # Editor-specific ignores
 .vscode/
 .idea/
+.fleet/
 *.swp
 *.swo
 
