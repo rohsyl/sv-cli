@@ -1,5 +1,9 @@
 package metrics
 
+import (
+    "time"
+)
+
 // MetricResult standardizes the return value for all metric functions
 type MetricResult struct {
 	Success bool        `json:"success"`
@@ -32,13 +36,23 @@ type CPUUsage struct {
 
 // DockerContainer represents basic container details
 type DockerContainer struct {
-	ID     string  `json:"id"`
-	Name   string  `json:"name"`
-	Image  string  `json:"image"`
-	Status string  `json:"status"`
-	Memory uint64  `json:"memory_usage,omitempty"`
-	CPU    float64 `json:"cpu_usage,omitempty"`
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	Image       string    `json:"image"`
+	Status      string    `json:"status"`
+	Memory      uint64    `json:"memory_usage,omitempty"`
+	MemoryLimit uint64    `json:"memory_limit,omitempty"`
+	CPU         float64   `json:"cpu_usage,omitempty"`
+
+	DiskRead    uint64    `json:"disk_read_bytes,omitempty"`
+	DiskWrite   uint64    `json:"disk_write_bytes,omitempty"`
+	NetworkRx   uint64    `json:"network_rx_bytes,omitempty"`
+	NetworkTx   uint64    `json:"network_tx_bytes,omitempty"`
+
+	Timestamp   time.Time `json:"timestamp"`
 }
+
+
 
 // ServiceStatus represents the status of a system service
 type ServiceStatus struct {

@@ -22,7 +22,7 @@ func NewRootCmd() *cobra.Command {
 	}
 
 	// Persistent flags
-	rootCmd.PersistentFlags().String("format", "table", "Output format: json or table")
+	rootCmd.PersistentFlags().String("format", "json", "Output format: json or table")
 	rootCmd.PersistentFlags().BoolP("version", "v", false, "Print the version number")
 
 	// Add subcommands

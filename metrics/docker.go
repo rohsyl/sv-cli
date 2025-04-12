@@ -9,6 +9,7 @@ import (
 	"github.com/docker/docker/client"
 	"io"
 	"strings"
+    "time"
 )
 
 func GetDockerContainers() MetricResult {
@@ -42,7 +43,6 @@ func GetDockerContainerInfo(containerName string) MetricResult {
 	}
 	cli.NegotiateAPIVersion(context.Background())
 
-	// List all containers (running & stopped) to find the matching one
 	containers, err := cli.ContainerList(context.Background(), container.ListOptions{All: true})
 	if err != nil {
 		return MetricResult{Success: false, Error: err.Error()}
@@ -62,44 +62,64 @@ func GetDockerContainerInfo(containerName string) MetricResult {
 		return MetricResult{Success: false, Error: fmt.Sprintf("Container %s not found", containerName)}
 	}
 
-	// Get container details (inspect)
 	containerJSON, err := cli.ContainerInspect(context.Background(), containerID)
 	if err != nil {
 		return MetricResult{Success: false, Error: err.Error()}
 	}
 
-	// Get container statistics (for memory & CPU usage)
 	stats, err := cli.ContainerStats(context.Background(), containerID, false)
 	if err != nil {
 		return MetricResult{Success: false, Error: err.Error()}
 	}
 	defer stats.Body.Close()
 
-	// Parse container stats
 	var containerStats types.StatsJSON
 	if err := DecodeJSON(stats.Body, &containerStats); err != nil {
 		return MetricResult{Success: false, Error: "Failed to decode container stats"}
 	}
 
-	// Calculate CPU usage
+	// CPU usage
 	cpuDelta := float64(containerStats.CPUStats.CPUUsage.TotalUsage - containerStats.PreCPUStats.CPUUsage.TotalUsage)
 	systemDelta := float64(containerStats.CPUStats.SystemUsage - containerStats.PreCPUStats.SystemUsage)
 	cpuUsage := (cpuDelta / systemDelta) * float64(len(containerStats.CPUStats.CPUUsage.PercpuUsage)) * 100.0
 
-	// Memory usage
+	// Memory
 	memoryUsage := containerStats.MemoryStats.Usage
-	// memoryLimit := containerStats.MemoryStats.Limit
+	memoryLimit := containerStats.MemoryStats.Limit
 
-	// Return formatted container details
+	// Disk I/O (Read/Write)
+	var blkRead, blkWrite uint64
+	for _, blk := range containerStats.BlkioStats.IoServiceBytesRecursive {
+		switch strings.ToLower(blk.Op) {
+		case "read":
+			blkRead += blk.Value
+		case "write":
+			blkWrite += blk.Value
+		}
+	}
+
+	// Network I/O (Rx/Tx)
+	var netRx, netTx uint64
+	for _, net := range containerStats.Networks {
+		netRx += net.RxBytes
+		netTx += net.TxBytes
+	}
+
 	return MetricResult{
 		Success: true,
 		Data: DockerContainer{
-			ID:     containerJSON.ID[:12],
-			Name:   strings.TrimPrefix(containerJSON.Name, "/"),
-			Image:  containerJSON.Config.Image,
-			Status: containerJSON.State.Status,
-			Memory: memoryUsage,
-			CPU:    cpuUsage,
+			ID:          containerJSON.ID[:12],
+			Name:        strings.TrimPrefix(containerJSON.Name, "/"),
+			Image:       containerJSON.Config.Image,
+			Status:      containerJSON.State.Status,
+			Memory:      memoryUsage,
+			MemoryLimit: memoryLimit,
+			CPU:         cpuUsage,
+			DiskRead:    blkRead,
+			DiskWrite:   blkWrite,
+			NetworkRx:   netRx,
+			NetworkTx:   netTx,
+			Timestamp:   time.Now(),
 		},
 	}
 }
