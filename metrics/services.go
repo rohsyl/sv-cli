@@ -1,10 +1,10 @@
 package metrics
 
 import (
+	"fmt"
 	"os/exec"
 	"runtime"
 	"strings"
-	"fmt"
 )
 
 func GetServiceStatus(serviceName string) MetricResult {
